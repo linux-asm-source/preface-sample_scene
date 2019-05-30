@@ -39,11 +39,12 @@ struct Queue{
 
 
 void* pthreadProc(void* arg){
-    int i;
+    int i,res=0;
 	int *value = (int *)arg;
 	for (i=0;i<TIMES;++i){
 		//(*value)++;
-		atomic_int_inc(value,1);//user atomic to syn 
+		res=atomic_int_inc(value,1);//user atomic to syn 
+		printf("res=%d...\n",res);
 		usleep(500);
 	}
 	return (void*)0;
@@ -69,14 +70,15 @@ int main(int argc,const char *argvs[]){
 		pthread_create(&workers[i],NULL,pthreadProc,&total);
 	}
 
-	pthread_t printWorker;
+/****pthread_t printWorker;
 	pthread_create(&printWorker,NULL,printRoutine,&total);
-	 
+	pthread_join(printWorker,0);
+****/
 
 	for (i=0;i<WORKER_SIZE;++i){
 		pthread_join(workers[i],0);
 	}
-	pthread_join(printWorker,0);
+	
 	
 	
 
