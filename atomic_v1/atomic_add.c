@@ -3,6 +3,7 @@
 #include <unistd.h>
 
 // xaddl delta,eax
+//redis will use this
 static int atomic_int_inc(int * addr,int addValue){
 	int ret=0;
 
